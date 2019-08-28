@@ -3,8 +3,17 @@ import "./App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import backdrop1 from "./img/backdrop1.jpg";
+import posed, { PoseGroup } from "react-pose";
 
 const postcode = require("postcode-validator");
+const animation = {
+  enter: { opacity: 1 },
+  exit: { opacity: 0 }
+};
+
+const Start = posed.div(animation);
+const Valid = posed.div(animation);
+const Invalid = posed.div(animation);
 
 class App extends React.Component {
   constructor(props) {
@@ -27,18 +36,22 @@ class App extends React.Component {
 
   render() {
     let valid = (
-      <div className="text-white pb-2 pt-1">Please Enter Zip Code</div>
+      <Start className="text-white pb-2 pt-1 start" key="start">
+        Please Enter Your Zip Code
+      </Start>
     );
     let zip = this.state.zip;
     if (zip.length > 4 && postcode.validate(zip, "US")) {
       valid = (
-        <div className="text-blue-400 pb-2 pt-1">
+        <Valid className="text-blue-400 pb-2 pt-1 valid" key="valid">
           valid numeric format zip code!
-        </div>
+        </Valid>
       );
     } else if (zip.length > 4 && !postcode.validate(zip, "US")) {
       valid = (
-        <div className="text-red-400 pb-2 pt-1 ">invalid zip code format</div>
+        <Invalid className="text-red-400 pb-2 pt-1 invalid" key="invalid">
+          invalid zip code format
+        </Invalid>
       );
     }
     let button = (
@@ -70,7 +83,8 @@ class App extends React.Component {
             value={this.state.zip}
             onChange={this.handleChange}
           />
-          {valid}
+
+          <PoseGroup>{valid}</PoseGroup>
           {button}
           <div></div>
         </div>
