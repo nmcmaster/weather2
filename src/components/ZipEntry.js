@@ -7,7 +7,7 @@ import posed, { PoseGroup } from "react-pose";
 
 const postcode = require("postcode-validator");
 
-function ZipEntry() {
+function ZipEntry(props) {
   const [zip, setZip] = useState("");
   const [validFormat, setValidFormat] = useState(false);
 
@@ -61,7 +61,7 @@ function ZipEntry() {
   }
 
   function submit() {
-    alert("this worked");
+    props.setView("forecast");
   }
 
   return (
