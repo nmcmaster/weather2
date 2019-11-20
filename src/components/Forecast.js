@@ -15,7 +15,7 @@ function Forecast(props) {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
-        "https://hn.algolia.com/api/v1/search?query=redux"
+        weiruch
       );
       setData(result.data);
     };
