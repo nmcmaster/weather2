@@ -61,6 +61,7 @@ function ZipEntry(props) {
   }
 
   function submit() {
+    props.setForecastZip(zip);
     props.setView("forecast");
   }
 
