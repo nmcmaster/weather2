@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import loadingRain from "../img/rain.gif";
 
 function Forecast(props) {
   const [forecast, setForecast] = useState(false);
-  //  const [data, setData] = useState({ hits: [] });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const apiKey = "099a76f4a161f8c95ec43e5a5064959b";
+  const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
   let zipCode = props.forecastZip;
-  //  let weiruch = "https://hn.algolia.com/api/v1/search?query=redux";
 
   const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
 
@@ -16,15 +16,19 @@ function Forecast(props) {
     const fetchData = async () => {
       const result = await axios(urlToFetch);
       setForecast(result);
-      console.log();
+      setIsLoading(false);
+      console.log(result);
     };
     fetchData();
-  }, []);
+  }, [urlToFetch]);
 
   return (
     <div>
-      {!forecast ? (
-        <div>no result</div>
+      {isLoading ? (
+        <div className="w-1/3 flex justify-center text-center mx-auto">
+          <div><img src={loadingRain} alt="loading" />
+          <p>Getting your weather...</p></div>
+        </div>
       ) : (
         <div>
           <p>
