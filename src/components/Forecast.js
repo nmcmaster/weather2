@@ -77,7 +77,7 @@ function Forecast(props) {
             <p className="w-1/2 pt-8 text-sm">
               It's <span className="font-bold">{forecast.current.weather_descriptions[0].toLowerCase()}</span> in{" "}
               {forecast.location.region} as of{" "}
-              {forecast.current.observation_time}
+              {forecast.current.observation_time}.
             </p>
             <p className="text-6xl mr-4">
               <div>{forecast.current.temperature}</div>
