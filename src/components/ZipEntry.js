@@ -67,13 +67,9 @@ function ZipEntry(props) {
 
   return (
     <div
-      style={{
-        backgroundImage: `url(${backdrop1})`,
-        backgroundSize: "cover"
-      }}
       className="h-screen w-screen pt-32"
     >
-      <div className="font-sans shadow mx-auto w-3/5 sm:w-2/5 lg:w-2/6 xl:w-1/5 sm:text-base sm:rounded-full text-xs text-center rounded-lg pt-2 pb-5 bg-white">
+      <div className="font-serif shadow mx-auto w-3/5 sm:w-2/5 lg:w-2/6 xl:w-1/5 sm:text-base sm:rounded-full text-xs text-center rounded-lg pt-2 pb-5 bg-white">
         <div className="p-1">
           <PoseGroup>{valid}</PoseGroup>
         </div>
