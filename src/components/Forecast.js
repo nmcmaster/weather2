@@ -22,7 +22,7 @@ const stub = {
   },
   current: {
     observation_time: "12:14 PM",
-    temperature: 13,
+    temperature: 2,
     weather_code: 113,
     weather_icons: [
       "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
@@ -43,38 +43,38 @@ const stub = {
 
 function Forecast(props) {
   const [forecast, setForecast] = useState(stub);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // set back to true
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
-  //  let zipCode = 10025;
-  let zipCode = props.forecastZip;
-
-  const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(urlToFetch);
-      setForecast(result.data);
-      setIsLoading(false);
-      console.log(result.data);
-    };
-    fetchData();
-  }, [urlToFetch]);
+    let zipCode = 10025;
+//  let zipCode = props.forecastZip;
+  //
+  // const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
+  //
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios(urlToFetch);
+  //     setForecast(result.data);
+  //     setIsLoading(false);
+  //     console.log(result.data);
+  //   };
+  //   fetchData();
+  // }, [urlToFetch]);
 
   return (
     <div>
       {isLoading ? (
-        <div className="w-1/3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3">
+        <div className="w-1/3 py-3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3">
           <div>
             <img src={loadingRain} alt="loading" />
-            <p>Getting your weather...</p>
+            <p className="font-serif text-sm mt-2">Getting your weather...</p>
           </div>
         </div>
       ) : (
         <div className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3">
           <div className="flex justify-between mb-3">
-            <p className="w-1/2 pt-8 text-sm">
+            <div className="w-1/2 pt-8 text-sm">
               It's{" "}
               <span className="font-bold">
                 {forecast.current.weather_descriptions[0].toLowerCase()}
@@ -82,21 +82,21 @@ function Forecast(props) {
               in {forecast.location.name}, {forecast.location.region} as of{" "}
               {forecast.current.observation_time}.{" "}
               {/* add utc offset calculation*/}
-            </p>
-            <p className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2">
-              <div>{forecast.current.temperature}</div>
+            </div>
+            <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 ">
+              <div className="relative">{forecast.current.temperature}<span className="text-sm absolute pt-8 right-0">°</span></div>
               <div className="text-xs -mt-5 text-center">Celsius</div>
-            </p>
+            </div>
           </div>
-          <p className="text-sm mb-2">
+          <div className="text-sm mb-2">
             The humidity is {forecast.current.humidity}, and the wind speed is{" "}
             {forecast.current.wind_speed}, so it feels like{" "}
             {forecast.current.feelslike}. The precipitation is{" "}
             {forecast.current.precip}.
-          </p>
-          <p className="text-sm my-2">
+          </div>
+          <div className="text-sm my-2">
             You requested weather for zip code {props.forecastZip}, .
-          </p>
+          </div>
         </div>
       )}
     </div>
