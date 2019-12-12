@@ -47,7 +47,7 @@ function Forecast(props) {
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
-//  let zipCode = 10025;
+  //  let zipCode = 10025;
   let zipCode = props.forecastZip;
 
   const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
@@ -95,8 +95,7 @@ function Forecast(props) {
             {forecast.current.precip}.
           </p>
           <p className="text-sm my-2">
-            You requested weather for zip code {props.forecastZip},{" "}
-            {forecast.location.country}.
+            You requested weather for zip code {props.forecastZip}, .
           </p>
         </div>
       )}

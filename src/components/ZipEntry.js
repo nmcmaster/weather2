@@ -4,8 +4,16 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import backdrop1 from "../img/backdrop1.jpg";
 import posed, { PoseGroup } from "react-pose";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from '@material-ui/styles';
 
 const postcode = require("postcode-validator");
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ["TimesNewRoman", "Times New Roman", "Times", "serif"].join(",")
+  }
+});
 
 function ZipEntry(props) {
   const [zip, setZip] = useState("");
@@ -21,7 +29,7 @@ function ZipEntry(props) {
   const Invalid = posed.div(animation);
 
   let valid = (
-    <Start className="text-white start text-sm" key="start">
+    <Start className="text-gray-100 start text-sm" key="start">
       Please Enter Your Zip Code
     </Start>
   );
@@ -39,7 +47,7 @@ function ZipEntry(props) {
     );
   }
   let button = (
-    <Button variant="contained" disabled>
+    <Button variant="contained" fontFamily="TimesNewRoman" disabled>
       <span className="normal-case">Find Weather</span>
     </Button>
   );
@@ -66,10 +74,9 @@ function ZipEntry(props) {
   }
 
   return (
-    <div
-      className="h-screen w-screen pt-32"
-    >
-      <div className="font-serif shadow mx-auto w-3/5 sm:w-2/5 lg:w-2/6 xl:w-1/5 sm:text-base sm:rounded-full text-xs text-center rounded-lg pt-2 pb-5 bg-white">
+    <ThemeProvider theme={theme}>
+
+      <div className="mt-32 bg-gray-100 font-serif shadow mx-auto w-3/5 sm:w-2/5 lg:w-2/6 xl:w-1/5 sm:text-base sm:rounded-full text-xs text-center rounded-lg pt-2 pb-5 bg-white">
         <div className="p-1">
           <PoseGroup>{valid}</PoseGroup>
         </div>
@@ -85,7 +92,8 @@ function ZipEntry(props) {
         <div></div>
         <div className="pt-1">{button}</div>
       </div>
-    </div>
+
+    </ThemeProvider>
   );
 }
 
