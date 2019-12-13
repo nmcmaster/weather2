@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingRain from "../img/rain.gif";
 import Temperature from "./Temperature";
+import { motion } from "framer-motion";
 
 var convert = require("convert-units");
 
@@ -70,7 +71,7 @@ function Forecast(props) {
   //   fetchData();
   // }, [urlToFetch]);
 
-  function unitConverter() {
+  function tempUnitConverter() {
     let temp = temperature;
     temp = convert(temp)
       .from("C")
@@ -82,15 +83,23 @@ function Forecast(props) {
   return (
     <div>
       {isLoading ? (
-        <div className="w-1/3 py-3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="w-1/3 py-3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3"
+        >
           <div>
             <img src={loadingRain} alt="loading" />
             <p className="font-serif text-sm mt-2">Getting your weather...</p>
           </div>
-        </div>
+        </motion.div>
       ) : (
         <div className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3 shadow">
-          <div className="flex justify-between mb-1">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex justify-between mb-1"
+          >
             <div className="w-1/2 pt-10 text-sm">
               It's{" "}
               <span className="font-bold">
@@ -104,17 +113,25 @@ function Forecast(props) {
               <Temperature temperature={temperature} />
               <div className="text-xs -mt-4 text-center">°C</div>
             </div>
-          </div>
-          <div className="text-sm mb-2">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-sm mb-2"
+          >
             The humidity is {forecast.current.humidity}%, and the wind speed is{" "}
             {forecast.current.wind_speed} km/h, so it feels like{" "}
             {forecast.current.feelslike}°C. The precipitation is{" "}
             {forecast.current.precip} mm.
-          </div>
-          <div className="text-sm my-2">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-sm my-2"
+          >
             You requested weather for zip code {props.forecastZip}, .
-          </div>
-          <button onClick={unitConverter}>Click here bitch</button>
+          </motion.div>
+          <button onClick={tempUnitConverter}>Click here bitch</button>
         </div>
       )}
     </div>
