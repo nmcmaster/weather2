@@ -5,7 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.7.2",
     "axios": "^0.19.0",
-    "framer-motion": "^1.6.15",
+    "convert-units": "^2.3.4",
+    "framer-motion": "^1.7.0",
     "postcode-validator": "^2.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

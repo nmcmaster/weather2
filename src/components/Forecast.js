@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingRain from "../img/rain.gif";
+import Temperature from "./Temperature";
+
+var convert = require("convert-units");
 
 const desktopStyle = "";
 
@@ -46,11 +49,13 @@ const stub = {
 function Forecast(props) {
   const [forecast, setForecast] = useState(stub);
   const [isLoading, setIsLoading] = useState(false); // set back to true
+  const [units, setUnits] = useState("M");
+  const [temperature, setTemperature] = useState(stub.current.temperature);
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
-    let zipCode = 10025;
-//  let zipCode = props.forecastZip;
+  let zipCode = 10025;
+  //  let zipCode = props.forecastZip;
   //
   // const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
   //
@@ -59,10 +64,20 @@ function Forecast(props) {
   //     const result = await axios(urlToFetch);
   //     setForecast(result.data);
   //     setIsLoading(false);
+  //     setTemperature(result.data.current.temperature);
   //     console.log(result.data);
   //   };
   //   fetchData();
   // }, [urlToFetch]);
+
+  function unitConverter() {
+    let temp = temperature;
+    temp = convert(temp)
+      .from("C")
+      .to("F");
+    setTemperature(temp);
+    setUnits("E");
+  }
 
   return (
     <div>
@@ -86,7 +101,7 @@ function Forecast(props) {
               {/* add utc offset calculation*/}
             </div>
             <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 shadow">
-              <div className="relative text-center">{forecast.current.temperature}</div>
+              <Temperature temperature={temperature} />
               <div className="text-xs -mt-4 text-center">°C</div>
             </div>
           </div>
@@ -99,6 +114,7 @@ function Forecast(props) {
           <div className="text-sm my-2">
             You requested weather for zip code {props.forecastZip}, .
           </div>
+          <button onClick={unitConverter}>Click here bitch</button>
         </div>
       )}
     </div>
