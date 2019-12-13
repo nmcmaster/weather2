@@ -110,8 +110,7 @@ function Forecast(props) {
               {/* add utc offset calculation*/}
             </div>
             <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 shadow">
-              <Temperature temperature={temperature} />
-              <div className="text-xs -mt-4 text-center">°C</div>
+              <Temperature temperature={temperature} units={units} />
             </div>
           </motion.div>
           <motion.div
