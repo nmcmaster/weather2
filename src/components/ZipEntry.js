@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../App.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import backdrop1 from "../img/backdrop1.jpg";
 import posed, { PoseGroup } from "react-pose";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from '@material-ui/styles';

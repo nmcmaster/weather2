@@ -2,8 +2,24 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./img/backdrop1.jpg");
   background-size: cover;
+}
+
+@media (min-width: 601px) {
+  body {
+    background: url('./img/joanBackdrop.png') repeat-x;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+     background: url('./img/backdrop1.jpg');
+  }
+}
+
+#bodyDiv {
+  width: 100vw;
+  height: 100vh;
 }
 
 code {
