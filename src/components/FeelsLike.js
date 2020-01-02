@@ -1,23 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function Windspeed(props) {
-  let windspeed;
-  if (props.windspeed % 1 != 0) {
-    windspeed = props.windspeed.toFixed(1);
+function FeelsLike(props) {
+  let feelsLike;
+  if (props.feelsLike % 1 != 0) {
+    feelsLike = props.feelsLike.toFixed(1);
   } else {
-    windspeed = props.windspeed;
+    feelsLike = props.feelsLike;
   }
 
   if (props.units === "M") {
     return (
       <motion.span
-        key="windspeedM"
+        key="feelsLikeM"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {windspeed} km/h
+        {feelsLike} °F
       </motion.span>
     );
   }
@@ -25,15 +25,15 @@ function Windspeed(props) {
   if (props.units === "E") {
     return (
       <motion.span
-        key="windspeedE"
+        key="feelsLikeE"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {windspeed} m/h
+        {feelsLike} °C
       </motion.span>
     );
   }
 }
 
-export default Windspeed;
+export default FeelsLike;

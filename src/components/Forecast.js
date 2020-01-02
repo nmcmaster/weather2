@@ -4,6 +4,8 @@ import loadingRain from "../img/rain.gif";
 import Temperature from "./Temperature";
 import { motion, AnimatePresence } from "framer-motion";
 import Windspeed from "./Windspeed";
+import FeelsLike from "./FeelsLike";
+import Precip from "./Precip";
 
 var convert = require("convert-units");
 
@@ -39,7 +41,7 @@ const stub = {
     //    wind_degree: 349,
     //  wind_dir: "N",
     //    pressure: 1010,
-    precip: 0,
+    precip: 13,
     humidity: 90,
     cloudcover: 0,
     feelslike: 13,
@@ -53,7 +55,9 @@ function Forecast(props) {
   const [isLoading, setIsLoading] = useState(false); // set back to true
   const [units, setUnits] = useState("M");
   const [temperature, setTemperature] = useState(stub.current.temperature);
-  const [windspeed, setWindspeed] = useState(stub.current.wind_speed)
+  const [windspeed, setWindspeed] = useState(stub.current.wind_speed);
+  const [feelsLike, setFeelsLike] = useState(stub.current.feelslike);
+  const [precip, setPrecip] = useState(stub.current.precip);
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
@@ -77,36 +81,65 @@ function Forecast(props) {
     if (units === "M") {
       setUnits("E");
       windSpeedConverter();
+      feelsLikeConverter();
+      precipConverter();
     }
     if (units === "E") {
       setUnits("M");
       windSpeedConverter();
+      feelsLikeConverter();
+      precipConverter();
     }
   }
 
-  function tempUnitConverter() {
-    let temp = temperature;
-    temp = convert(temp)
-      .from("C")
-      .to("F");
-    setTemperature(temp);
+  function feelsLikeConverter() {
+    if (units === "E") {
+      setFeelsLike(
+        convert(feelsLike)
+          .from("F")
+          .to("C")
+      );
+    }
+    if (units === "M") {
+      setFeelsLike(
+        convert(feelsLike)
+          .from("C")
+          .to("F")
+      );
+    }
   }
-
-  // let windspeed;
-  // if (units === "E") {
-  //   windspeed = "km/h";
-  // }
-  // if (units === "M") {
-  //   windspeed = "m/h";
-  // }
 
   function windSpeedConverter() {
     if (units === "E") {
-      setWindspeed(convert(windspeed).from('m/h').to('km/h'));
-
+      setWindspeed(
+        convert(windspeed)
+          .from("m/h")
+          .to("km/h")
+      );
     }
     if (units === "M") {
-      setWindspeed(convert(windspeed).from('km/h').to('m/h'));
+      setWindspeed(
+        convert(windspeed)
+          .from("km/h")
+          .to("m/h")
+      );
+    }
+  }
+
+  function precipConverter() {
+    if (units === "E") {
+      setPrecip(
+        convert(precip)
+          .from("in")
+          .to("mm")
+      );
+    }
+    if (units === "M") {
+      setPrecip(
+        convert(precip)
+          .from("mm")
+          .to("in")
+      );
     }
   }
 
@@ -152,8 +185,15 @@ function Forecast(props) {
             <AnimatePresence>
               <Windspeed windspeed={windspeed} units={units} />
             </AnimatePresence>
-            , so it feels like {forecast.current.feelslike}°C. The precipitation
-            is {forecast.current.precip} mm.
+            , so it feels like{" "}
+            <AnimatePresence>
+              <FeelsLike feelsLike={feelsLike} units={units} />
+            </AnimatePresence>
+            . The precipitation is{" "}
+            <AnimatePresence>
+              <Precip precip={precip} units={units} />
+            </AnimatePresence>
+            .
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}

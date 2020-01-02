@@ -1,23 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function Windspeed(props) {
-  let windspeed;
-  if (props.windspeed % 1 != 0) {
-    windspeed = props.windspeed.toFixed(1);
+function Precip(props) {
+  let precip;
+  if (props.precip % 1 != 0) {
+    precip = props.precip.toFixed(1);
   } else {
-    windspeed = props.windspeed;
+    precip = props.precip;
   }
+  // if (precip.slice(-2) === ".0") {
+  //   return precip.slice(-2, (precip.length - 2));
+  // }
 
   if (props.units === "M") {
     return (
       <motion.span
-        key="windspeedM"
+        key="precipM"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {windspeed} km/h
+        {precip} mm
       </motion.span>
     );
   }
@@ -25,15 +28,15 @@ function Windspeed(props) {
   if (props.units === "E") {
     return (
       <motion.span
-        key="windspeedE"
+        key="precipE"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {windspeed} m/h
+        {precip} in
       </motion.span>
     );
   }
 }
 
-export default Windspeed;
+export default Precip;
