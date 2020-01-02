@@ -7,13 +7,15 @@ body {
 
 @media (min-width: 601px) {
   body {
-    background: url('./img/joanBackdrop.png') repeat-x;
+    background: url('./img/backdrop1.jpg');
+    background-size: cover;
   }
 }
 
 @media (max-width: 600px) {
   body {
      background: url('./img/backdrop1.jpg');
+     background-size: cover;
   }
 }
 

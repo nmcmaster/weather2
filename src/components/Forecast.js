@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingRain from "../img/rain.gif";
 import Temperature from "./Temperature";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Windspeed from "./Windspeed";
 
 var convert = require("convert-units");
 
@@ -34,7 +35,7 @@ const stub = {
       "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
     ],
     weather_descriptions: ["Sunny"],
-    wind_speed: 0,
+    wind_speed: 10,
     //    wind_degree: 349,
     //  wind_dir: "N",
     //    pressure: 1010,
@@ -52,6 +53,7 @@ function Forecast(props) {
   const [isLoading, setIsLoading] = useState(false); // set back to true
   const [units, setUnits] = useState("M");
   const [temperature, setTemperature] = useState(stub.current.temperature);
+  const [windspeed, setWindspeed] = useState(stub.current.wind_speed)
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
@@ -71,13 +73,41 @@ function Forecast(props) {
   //   fetchData();
   // }, [urlToFetch]);
 
+  function unitConvert() {
+    if (units === "M") {
+      setUnits("E");
+      windSpeedConverter();
+    }
+    if (units === "E") {
+      setUnits("M");
+      windSpeedConverter();
+    }
+  }
+
   function tempUnitConverter() {
     let temp = temperature;
     temp = convert(temp)
       .from("C")
       .to("F");
     setTemperature(temp);
-    setUnits("E");
+  }
+
+  // let windspeed;
+  // if (units === "E") {
+  //   windspeed = "km/h";
+  // }
+  // if (units === "M") {
+  //   windspeed = "m/h";
+  // }
+
+  function windSpeedConverter() {
+    if (units === "E") {
+      setWindspeed(convert(windspeed).from('m/h').to('km/h'));
+
+    }
+    if (units === "M") {
+      setWindspeed(convert(windspeed).from('km/h').to('m/h'));
+    }
   }
 
   return (
@@ -119,9 +149,11 @@ function Forecast(props) {
             className="text-sm mb-2"
           >
             The humidity is {forecast.current.humidity}%, and the wind speed is{" "}
-            {forecast.current.wind_speed} km/h, so it feels like{" "}
-            {forecast.current.feelslike}°C. The precipitation is{" "}
-            {forecast.current.precip} mm.
+            <AnimatePresence>
+              <Windspeed windspeed={windspeed} units={units} />
+            </AnimatePresence>
+            , so it feels like {forecast.current.feelslike}°C. The precipitation
+            is {forecast.current.precip} mm.
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -130,7 +162,7 @@ function Forecast(props) {
           >
             You requested weather for zip code {props.forecastZip}, .
           </motion.div>
-          <button onClick={tempUnitConverter}>Click here bitch</button>
+          <button onClick={unitConvert}>Change to Celsius/Metric</button>
         </div>
       )}
     </div>
