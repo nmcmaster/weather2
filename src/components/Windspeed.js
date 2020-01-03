@@ -8,32 +8,23 @@ function Windspeed(props) {
   } else {
     windspeed = props.windspeed;
   }
-
-  if (props.units === "M") {
-    return (
-      <motion.span
-        key="windspeedM"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {windspeed} km/h
-      </motion.span>
-    );
-  }
-
+  let tempUnit;
   if (props.units === "E") {
-    return (
-      <motion.span
-        key="windspeedE"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {windspeed} m/h
-      </motion.span>
-    );
+    tempUnit = "m/h";
   }
+  if (props.units === "M") {
+    tempUnit = "km/h";
+  }
+  return (
+    <motion.span
+      key={"windspeed" + tempUnit}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {windspeed} {tempUnit}
+    </motion.span>
+  );
 }
 
 export default Windspeed;

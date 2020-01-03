@@ -2,38 +2,31 @@ import React from "react";
 import { motion } from "framer-motion";
 
 function FeelsLike(props) {
-  let feelsLike;
-  if (props.feelsLike % 1 != 0) {
-    feelsLike = props.feelsLike.toFixed(1);
-  } else {
-    feelsLike = props.feelsLike;
+  let feelsLike = props.feelsLike;
+  if (feelsLike % 1 != 0) {
+    feelsLike = feelsLike.toFixed(1);
   }
-
-  if (props.units === "M") {
-    return (
-      <motion.span
-        key="feelsLikeM"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {feelsLike} °F
-      </motion.span>
-    );
+  if (feelsLike.toString().slice(-2) === ".0") {
+    feelsLike = feelsLike.toString().slice(0, -2);
   }
-
+  let feelsLikeUnit;
   if (props.units === "E") {
-    return (
-      <motion.span
-        key="feelsLikeE"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {feelsLike} °C
-      </motion.span>
-    );
+    feelsLikeUnit = "°F";
   }
+  if (props.units === "M") {
+    feelsLikeUnit = "°C";
+  }
+
+  return (
+    <motion.span
+      key={"feelsLikeM" + feelsLikeUnit}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {feelsLike} {feelsLikeUnit}
+    </motion.span>
+  );
 }
 
 export default FeelsLike;

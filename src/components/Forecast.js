@@ -83,12 +83,31 @@ function Forecast(props) {
       windSpeedConverter();
       feelsLikeConverter();
       precipConverter();
+      temperatureConverter();
     }
     if (units === "E") {
       setUnits("M");
       windSpeedConverter();
       feelsLikeConverter();
       precipConverter();
+      temperatureConverter();
+    }
+  }
+
+  function temperatureConverter() {
+    if (units === "E") {
+      setTemperature(
+        convert(temperature)
+          .from("F")
+          .to("C")
+      );
+    }
+    if (units === "M") {
+      setTemperature(
+        convert(temperature)
+          .from("C")
+          .to("F")
+      );
     }
   }
 
@@ -147,7 +166,7 @@ function Forecast(props) {
     <div>
       {isLoading ? (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ y: 0 }}
           animate={{ opacity: 1 }}
           className="w-1/3 py-3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3"
         >
@@ -157,7 +176,7 @@ function Forecast(props) {
           </div>
         </motion.div>
       ) : (
-        <div className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3 shadow">
+        <motion.div initial={{y: -200}} animate={{y: 0}} transition={{type: "tween"}} className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3 shadow">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -173,7 +192,9 @@ function Forecast(props) {
               {/* add utc offset calculation*/}
             </div>
             <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 shadow">
+            <AnimatePresence>
               <Temperature temperature={temperature} units={units} />
+            </AnimatePresence>
             </div>
           </motion.div>
           <motion.div
@@ -203,7 +224,7 @@ function Forecast(props) {
             You requested weather for zip code {props.forecastZip}, .
           </motion.div>
           <button onClick={unitConvert}>Change to Celsius/Metric</button>
-        </div>
+        </motion.div>
       )}
     </div>
   );
