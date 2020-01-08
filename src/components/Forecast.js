@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Windspeed from "./Windspeed";
 import FeelsLike from "./FeelsLike";
 import Precip from "./Precip";
+import IsLoading from "./IsLoading";
 
 var convert = require("convert-units");
 
@@ -165,18 +166,14 @@ function Forecast(props) {
   return (
     <div>
       {isLoading ? (
-        <motion.div
-          initial={{ y: 0 }}
-          animate={{ opacity: 1 }}
-          className="w-1/3 py-3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3"
-        >
-          <div>
-            <img src={loadingRain} alt="loading" />
-            <p className="font-serif text-sm mt-2">Getting your weather...</p>
-          </div>
-        </motion.div>
+        <IsLoading />
       ) : (
-        <motion.div initial={{y: -200}} animate={{y: 0}} transition={{type: "tween"}} className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3 shadow">
+        <motion.div
+          initial={{ y: -200 }}
+          animate={{ y: 0 }}
+          transition={{ type: "tween" }}
+          className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3 shadow"
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -192,9 +189,9 @@ function Forecast(props) {
               {/* add utc offset calculation*/}
             </div>
             <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 shadow">
-            <AnimatePresence>
-              <Temperature temperature={temperature} units={units} />
-            </AnimatePresence>
+              <AnimatePresence>
+                <Temperature temperature={temperature} units={units} />
+              </AnimatePresence>
             </div>
           </motion.div>
           <motion.div
