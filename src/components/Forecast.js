@@ -7,6 +7,7 @@ import Windspeed from "./Windspeed";
 import FeelsLike from "./FeelsLike";
 import Precip from "./Precip";
 import IsLoading from "./IsLoading";
+import LocalTime from "./LocalTime";
 
 var convert = require("convert-units");
 
@@ -62,7 +63,7 @@ function Forecast(props) {
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
-  let zipCode = 10025;
+  let zipCode = 10025; // request in English units, maybe local time will be right then.
   //  let zipCode = props.forecastZip;
   //
   // const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
@@ -185,8 +186,7 @@ function Forecast(props) {
                 {forecast.current.weather_descriptions[0].toLowerCase()}
               </span>{" "}
               in {forecast.location.name}, {forecast.location.region} as of{" "}
-              {forecast.current.observation_time}.{" "}
-              {/* add utc offset calculation*/}
+              <LocalTime time={forecast.location.localtime}/>.{" "}
             </div>
             <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 shadow">
               <AnimatePresence>
