@@ -5,7 +5,7 @@ import Forecast from './components/Forecast';
 import backdrop1 from "./img/backdrop1.jpg";
 
 function App() {
-  const [view, setView] = useState("forecast"); // remember to set back to zip entry
+  const [view, setView] = useState("ZipEntry"); // remember to set back to zip entry
   const [forecastZip, setForecastZip] = useState("");
   let content;
 

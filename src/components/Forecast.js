@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingRain from "../img/rain.gif";
-import Temperature from "./Temperature";
 import { motion, AnimatePresence } from "framer-motion";
-import Windspeed from "./Windspeed";
-import FeelsLike from "./FeelsLike";
-import Precip from "./Precip";
-import IsLoading from "./IsLoading";
-import LocalTime from "./LocalTime";
+import ForecastBody from "./ForecastBody";
+// import { stub } from "./stub";
 
 var convert = require("convert-units");
 
@@ -54,8 +50,8 @@ const stub = {
 
 function Forecast(props) {
   const [forecast, setForecast] = useState(stub);
-  const [isLoading, setIsLoading] = useState(false); // set back to true
-  const [units, setUnits] = useState("M");
+  const [isLoading, setIsLoading] = useState(true); // set back to true
+  const [units, setUnits] = useState("E");
   const [temperature, setTemperature] = useState(stub.current.temperature);
   const [windspeed, setWindspeed] = useState(stub.current.wind_speed);
   const [feelsLike, setFeelsLike] = useState(stub.current.feelslike);
@@ -63,21 +59,21 @@ function Forecast(props) {
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
-  let zipCode = 10025; // request in English units, maybe local time will be right then.
-  //  let zipCode = props.forecastZip;
-  //
-  // const urlToFetch = baseUrl + apiKey + "&query=" + zipCode;
-  //
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await axios(urlToFetch);
-  //     setForecast(result.data);
-  //     setIsLoading(false);
-  //     setTemperature(result.data.current.temperature);
-  //     console.log(result.data);
-  //   };
-  //   fetchData();
-  // }, [urlToFetch]);
+  //  let zipCode = 10025; // request English units, maybe local time will be right then.
+  let zipCode = props.forecastZip;
+
+  const urlToFetch = baseUrl + apiKey + "&query=" + zipCode + "&units=f";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(urlToFetch);
+      setForecast(result.data);
+      setIsLoading(false);
+      setTemperature(result.data.current.temperature);
+      console.log(result.data);
+    };
+    fetchData();
+  }, [urlToFetch]);
 
   function unitConvert() {
     if (units === "M") {
@@ -165,65 +161,17 @@ function Forecast(props) {
   }
 
   return (
-    <div>
-      {isLoading ? (
-        <IsLoading />
-      ) : (
-        <motion.div
-          initial={{ y: -200 }}
-          animate={{ y: 0 }}
-          transition={{ type: "tween" }}
-          className="font-serif px-4 bg-gray-100 rounded-b-lg pb-3 shadow"
-        >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex justify-between mb-1"
-          >
-            <div className="w-1/2 pt-10 text-sm">
-              It's{" "}
-              <span className="font-bold">
-                {forecast.current.weather_descriptions[0].toLowerCase()}
-              </span>{" "}
-              in {forecast.location.name}, {forecast.location.region} as of{" "}
-              <LocalTime time={forecast.location.localtime}/>.{" "}
-            </div>
-            <div className="text-6xl mr-4 bg-gray-200 rounded-b-full pb-2 px-2 shadow">
-              <AnimatePresence>
-                <Temperature temperature={temperature} units={units} />
-              </AnimatePresence>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-sm mb-2"
-          >
-            The humidity is {forecast.current.humidity}%, and the wind speed is{" "}
-            <AnimatePresence>
-              <Windspeed windspeed={windspeed} units={units} />
-            </AnimatePresence>
-            , so it feels like{" "}
-            <AnimatePresence>
-              <FeelsLike feelsLike={feelsLike} units={units} />
-            </AnimatePresence>
-            . The precipitation is{" "}
-            <AnimatePresence>
-              <Precip precip={precip} units={units} />
-            </AnimatePresence>
-            .
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-sm my-2"
-          >
-            You requested weather for zip code {props.forecastZip}, .
-          </motion.div>
-          <button onClick={unitConvert}>Change to Celsius/Metric</button>
-        </motion.div>
-      )}
-    </div>
+    <ForecastBody
+      forecast={forecast}
+      isLoading={isLoading}
+      units={units}
+      temperature={temperature}
+      windspeed={windspeed}
+      feelsLike={feelsLike}
+      precip={precip}
+      unitConvert={unitConvert}
+      forecastZip={props.forecastZip}
+    />
   );
 }
 
