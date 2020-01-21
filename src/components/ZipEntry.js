@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import posed, { PoseGroup } from "react-pose";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from "@material-ui/styles";
 
 const postcode = require("postcode-validator");
 
@@ -52,9 +52,9 @@ function ZipEntry(props) {
   );
   if (validFormat === true) {
     button = (
-      <Button variant="contained" onClick={submit}>
+      <button variant="contained" onClick={submit} onKeyPress={handleKeyEvent}>
         <span className="normal-case">Find Weather</span>
-      </Button>
+      </button>
     );
   }
 
@@ -64,6 +64,12 @@ function ZipEntry(props) {
       setValidFormat(true);
     } else {
       setValidFormat(false);
+    }
+  }
+
+  function handleKeyEvent(event) {
+    if (event.key === "Enter") {
+      console.log("handlekeyevent");
     }
   }
 

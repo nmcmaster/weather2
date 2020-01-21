@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import loadingRain from "../img/rain.gif";
 
-function IsLoading() {
+function Loading() {
   return (
     <motion.div
     initial={{ y: -200, opacity: 0 }}
@@ -18,4 +18,4 @@ function IsLoading() {
   );
 }
 
-export default IsLoading;
+export default Loading;

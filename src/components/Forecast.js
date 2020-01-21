@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingRain from "../img/rain.gif";
 import ForecastBody from "./ForecastBody";
-import IsLoading from "./IsLoading";
+import Loading from "./Loading";
 import Error from "./Error";
 // import { stub } from "./stub";
 
@@ -171,7 +171,7 @@ function Forecast(props) {
   return (
       <div>
         {isLoading ? (
-          <IsLoading />
+          <Loading />
         ) : (
           <>
           {isError ? ( <Error /> ):(
