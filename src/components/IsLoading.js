@@ -5,8 +5,9 @@ import loadingRain from "../img/rain.gif";
 function IsLoading() {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    initial={{ y: -200, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ type: "tween" }}
       className="w-1/3 py-3 flex justify-center text-center mx-auto bg-gray-100 rounded-b-lg pb-3"
     >
       <div>

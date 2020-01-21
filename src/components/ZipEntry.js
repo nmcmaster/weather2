@@ -74,7 +74,6 @@ function ZipEntry(props) {
 
   return (
     <ThemeProvider theme={theme}>
-
       <div className="mt-32 bg-gray-100 font-serif shadow mx-auto w-3/5 sm:w-2/5 lg:w-2/6 xl:w-1/5 sm:text-base sm:rounded-full text-xs text-center rounded-lg pt-2 pb-5 bg-white">
         <div className="p-1">
           <PoseGroup>{valid}</PoseGroup>
@@ -91,7 +90,6 @@ function ZipEntry(props) {
         <div></div>
         <div className="pt-1">{button}</div>
       </div>
-
     </ThemeProvider>
   );
 }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingRain from "../img/rain.gif";
-import { motion, AnimatePresence } from "framer-motion";
 import ForecastBody from "./ForecastBody";
+import IsLoading from "./IsLoading";
+import Error from "./Error";
 // import { stub } from "./stub";
 
 var convert = require("convert-units");
@@ -56,21 +57,28 @@ function Forecast(props) {
   const [windspeed, setWindspeed] = useState(stub.current.wind_speed);
   const [feelsLike, setFeelsLike] = useState(stub.current.feelslike);
   const [precip, setPrecip] = useState(stub.current.precip);
+  const [isError, setIsError] = useState(false);
 
   const apiKey = "356f20acf9fbabbec028857322a686d7";
   const baseUrl = "http://api.weatherstack.com/current?access_key=";
   //  let zipCode = 10025; // request English units, maybe local time will be right then.
   let zipCode = props.forecastZip;
-
   const urlToFetch = baseUrl + apiKey + "&query=" + zipCode + "&units=f";
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(urlToFetch);
-      setForecast(result.data);
+      setIsError(false);
+      setIsLoading(true);
+
+      try {
+        const result = await axios(urlToFetch);
+        setForecast(result.data);
+        setTemperature(result.data.current.temperature);
+        console.log(result.data);
+      } catch (error) {
+        setIsError(true);
+      }
       setIsLoading(false);
-      setTemperature(result.data.current.temperature);
-      console.log(result.data);
     };
     fetchData();
   }, [urlToFetch]);
@@ -161,17 +169,28 @@ function Forecast(props) {
   }
 
   return (
-    <ForecastBody
-      forecast={forecast}
-      isLoading={isLoading}
-      units={units}
-      temperature={temperature}
-      windspeed={windspeed}
-      feelsLike={feelsLike}
-      precip={precip}
-      unitConvert={unitConvert}
-      forecastZip={props.forecastZip}
-    />
+      <div>
+        {isLoading ? (
+          <IsLoading />
+        ) : (
+          <>
+          {isError ? ( <Error /> ):(
+          <ForecastBody
+            forecast={forecast}
+            isLoading={isLoading}
+            units={units}
+            temperature={temperature}
+            windspeed={windspeed}
+            feelsLike={feelsLike}
+            precip={precip}
+            unitConvert={unitConvert}
+            forecastZip={props.forecastZip}
+          />
+        )
+        }
+        </>
+        )}
+      </div>
   );
 }
 
